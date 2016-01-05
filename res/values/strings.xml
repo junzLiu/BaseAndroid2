@@ -3,5 +3,6 @@
 
     <string name="app_name">BaseAndroid</string>
     <string name="hello_world">Hello world!</string>
+    <string name="cancel">cancel</string>
 
 </resources>

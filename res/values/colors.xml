@@ -1,0 +1,35 @@
+<resources>
+
+    <color name="black_overlay">#66000000</color>
+    <color name="white">#ffffff</color>
+    
+    <!-- white style color  -->
+    <color name="ws_color">#ffffffff</color>
+    <color name="ws_base_color">#000000</color>
+    <color name="ws_text_color">#212121</color>
+    <color name="ws_secondtext_or_icons_color">#757575</color>
+    <color name="ws_hint_or_disable_color">#9e9e9e</color>
+    <color name="ws_divider_color">#e1e1e1</color>
+    <color name="ws_primary_color">#3f51b5</color>
+    <color name="ws_accent_color">#ff4081</color>
+
+    <!-- black style color -->
+    <color name="bs_color">#000000</color>
+    <color name="bs_base_color">#ffffff</color>
+    <color name="bs_text_color">#ffffff</color>
+    <color name="bs_secondtext_or_icons_color">#b3b3b3</color>
+    <color name="bs_hint_or_disable_color">#4c4c4c</color>
+    <color name="bs_divider_color">#1e1e1e</color>
+    <color name="bs_primary_color">#3f51b5</color>
+    <color name="bs_accent_color">#ff4081</color>
+
+    <color name="text_content_color">#666666</color>
+    <color name="text_hint_color">#afb2b3</color>
+    <color name="text_edit_color">#000000</color>
+    <color name="text_black">#333333</color>
+    <color name="text_red">#fd5555</color>
+    <color name="divider">#d9d9d9</color>
+    <color name="transparent">#00000000</color>
+    <color name="popup_item_text_color">#217cd7</color>
+    <color name="dairy_day_text">#afb2b3</color>
+</resources>
