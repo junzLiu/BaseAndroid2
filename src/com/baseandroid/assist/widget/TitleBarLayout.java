@@ -39,8 +39,7 @@ import com.baseandroid.assist.tools.TransformUtil;
  * @data 2015.05.04
  * 
  */
-public class TitleBarLayout extends RelativeLayout implements
-		OnItemClickListener {
+public class TitleBarLayout extends RelativeLayout implements OnItemClickListener {
 	private static final String TAG = "TitleBarLayout";
 	private static final int DEFAULT_BANK_ICON = R.drawable.ic_title_back;
 	private static final int DEFAULT_NAVI_ICON = R.drawable.navi_more;
@@ -50,6 +49,7 @@ public class TitleBarLayout extends RelativeLayout implements
 	private LinearLayout mCenterLayout;
 	private LinearLayout mRightLayout;
 
+	private ImageView mCloseIv;
 	private ImageView mBackIndicator;
 	private ImageView mIconIv;
 	private TextView mTitleTextTv;
@@ -67,11 +67,11 @@ public class TitleBarLayout extends RelativeLayout implements
 
 	public interface ActionListener {
 		void onActionPerformed(int id);
-	}
+	};
 
 	public interface TitleBackListener {
 		void onBackClick();
-
+		void onCloseClick();
 	}
 
 	public interface TitleNaviItemsListener {
@@ -97,7 +97,7 @@ public class TitleBarLayout extends RelativeLayout implements
 			if (obj.mActionListener != null) {
 				obj.mActionListener.onActionPerformed(msg.what);
 			}
-		}
+		};
 	};
 
 	public TitleBarLayout(Context context) {
@@ -117,23 +117,25 @@ public class TitleBarLayout extends RelativeLayout implements
 		addView(makeRightLayout());
 		setBackgroundResource(R.drawable.home_top_bg);
 		requestLayout();
+		mCloseIv.setVisibility(View.GONE);
 	}
 
 	private View makeLeftLayout() {
 		mLeftLayout = createLayout(RelativeLayout.ALIGN_PARENT_LEFT);
 		mLeftLayout.addView(makeBackIv());
+		mLeftLayout.addView(makeCloseIv());
 		return mLeftLayout;
 	}
 
 	@SuppressWarnings("unused")
 	private View makeEmptyView(int width) {
 		View v = new View(getContext());
-		LayoutParams lp = new LayoutParams(LayoutParams.WRAP_CONTENT,
-				LayoutParams.MATCH_PARENT);
+		LayoutParams lp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
 		lp.addRule(Gravity.LEFT);
 		lp.width = width;
 		v.setLayoutParams(lp);
 		return v;
+
 	}
 
 	private View makeCenterLayout() {
@@ -152,8 +154,7 @@ public class TitleBarLayout extends RelativeLayout implements
 
 	private ImageView makeBackIv() {
 		mBackIndicator = new ImageView(getContext());
-		LayoutParams lp = new LayoutParams(LayoutParams.WRAP_CONTENT,
-				LayoutParams.MATCH_PARENT);
+		LayoutParams lp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
 		lp.width = TransformUtil.dip2px(getContext(), 40);
 		mBackIndicator.setLayoutParams(lp);
 		mBackIndicator.setScaleType(ScaleType.CENTER);
@@ -161,6 +162,18 @@ public class TitleBarLayout extends RelativeLayout implements
 		mBackIndicator.setImageResource(DEFAULT_BANK_ICON);
 		mBackIndicator.setBackgroundResource(R.drawable.action_item_bg);
 		return mBackIndicator;
+	}
+	
+	private ImageView makeCloseIv(){
+		mCloseIv = new ImageView(getContext());
+		LayoutParams lp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
+		lp.width = TransformUtil.dip2px(getContext(), 40);
+		mCloseIv.setLayoutParams(lp);
+		mCloseIv.setScaleType(ScaleType.CENTER);
+		mCloseIv.setOnClickListener(new ViewClickListener());
+		mCloseIv.setImageResource(R.drawable.icon_title_close);
+		mCloseIv.setBackgroundResource(R.drawable.action_item_bg);
+		return mCloseIv;
 	}
 
 	private TextView makeTitleTextTv() {
@@ -177,8 +190,7 @@ public class TitleBarLayout extends RelativeLayout implements
 
 	private LinearLayout createLayout(int gravity) {
 		LinearLayout ll = new LinearLayout(getContext());
-		LayoutParams rl = new LayoutParams(LayoutParams.WRAP_CONTENT,
-				LayoutParams.MATCH_PARENT);
+		LayoutParams rl = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
 		rl.addRule(gravity);
 		ll.setLayoutParams(rl);
 		ll.setGravity(Gravity.CENTER_VERTICAL);
@@ -209,13 +221,12 @@ public class TitleBarLayout extends RelativeLayout implements
 				btn.setText(ai.title);
 				btn.setTextSize(15);
 				btn.setClickable(true);
-				ColorStateList csl = this.getResources().getColorStateList(
+				ColorStateList csl = (ColorStateList) this.getResources().getColorStateList(
 						R.color.dairy_top_text_selector);
 				if (csl != null) {
 					btn.setTextColor(csl);
 				} else {
-					btn.setTextColor(getContext().getResources().getColor(
-							R.color.dairy_top_text_selector));
+					btn.setTextColor(getContext().getResources().getColor(R.color.dairy_top_text_selector));
 				}
 				btn.setGravity(Gravity.CENTER);
 				if (ai.icon != 0) {
@@ -228,13 +239,12 @@ public class TitleBarLayout extends RelativeLayout implements
 				TextView tv = new TextView(getContext());
 				tv.setText(ai.title);
 				tv.setTextSize(13);
-				ColorStateList csl = this.getResources().getColorStateList(
+				ColorStateList csl = (ColorStateList) this.getResources().getColorStateList(
 						R.color.dairy_top_text_selector);
 				if (csl != null) {
 					tv.setTextColor(csl);
 				} else {
-					tv.setTextColor(getContext().getResources().getColor(
-							R.color.dairy_top_text_selector));
+					tv.setTextColor(getContext().getResources().getColor(R.color.dairy_top_text_selector));
 				}
 				tv.setGravity(Gravity.CENTER);
 				view = tv;
@@ -247,19 +257,17 @@ public class TitleBarLayout extends RelativeLayout implements
 				iv.setBackgroundResource(R.drawable.action_item_bg);
 			}
 		}
-		view.setPadding(TransformUtil.dip2px(getContext(), 18), 0,
-				TransformUtil.dip2px(getContext(), 18), 0);
+		view.setPadding(TransformUtil.dip2px(getContext(), 18), 0, TransformUtil.dip2px(getContext(), 18), 0);
 
-		LayoutParams lp = new LayoutParams(LayoutParams.WRAP_CONTENT,
+		RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,
 				LayoutParams.MATCH_PARENT);
 		view.setLayoutParams(lp);
 
 		view.setClickable(true);
-		view.setOnClickListener(new OnClickListener() {
+		view.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Message msg = sHandler
-						.obtainMessage(ai.id, TitleBarLayout.this);
+				Message msg = sHandler.obtainMessage(ai.id, TitleBarLayout.this);
 				msg.sendToTarget();
 			}
 		});
@@ -328,17 +336,15 @@ public class TitleBarLayout extends RelativeLayout implements
 			TextView tv = (TextView) mRightLayout.getChildAt(index);
 			tv.setText(title);
 			if (clickable) {
-				ColorStateList csl = this.getResources().getColorStateList(
+				ColorStateList csl = (ColorStateList) this.getResources().getColorStateList(
 						R.color.dairy_top_text_selector);
 				if (csl != null) {
 					tv.setTextColor(csl);
 				} else {
-					tv.setTextColor(getContext().getResources().getColor(
-							R.color.dairy_top_text_selector));
+					tv.setTextColor(getContext().getResources().getColor(R.color.dairy_top_text_selector));
 				}
 			} else {
-				tv.setTextColor(getContext().getResources().getColor(
-						R.color.dairy_day_text));
+				tv.setTextColor(getContext().getResources().getColor(R.color.dairy_day_text));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -413,8 +419,8 @@ public class TitleBarLayout extends RelativeLayout implements
 
 	private ImageView makeNaviIv() {
 		mNaviIv = new ImageView(getContext());
-		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-				LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,
+				LayoutParams.MATCH_PARENT);
 		lp.width = TransformUtil.dip2px(getContext(), 60);
 		mNaviIv.setLayoutParams(lp);
 		mNaviIv.setScaleType(ScaleType.CENTER);
@@ -431,15 +437,12 @@ public class TitleBarLayout extends RelativeLayout implements
 			mPopupWindow.setFocusable(true);
 			mPopupWindow.setWidth(TransformUtil.dip2px(getContext(), 150));
 			mPopupWindow.setHeight(LayoutParams.WRAP_CONTENT);
-			mPopupWindow
-					.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-			mPopupWindow.setBackgroundDrawable(getResources().getDrawable(
-					R.drawable.nav_pop_bg));
+			mPopupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+			mPopupWindow.setBackgroundDrawable(getResources().getDrawable(R.drawable.nav_pop_bg));
 		}
 		mPopupWindow.setContentView(createListView());
 		// TODO need test
-		mPopupWindow.showAtLocation(this, Gravity.RIGHT | Gravity.TOP,
-				TransformUtil.dip2px(getContext(), 10),
+		mPopupWindow.showAtLocation(this, Gravity.RIGHT | Gravity.TOP, TransformUtil.dip2px(getContext(), 10),
 				TransformUtil.dip2px(getContext(), 74));
 	}
 
@@ -452,8 +455,7 @@ public class TitleBarLayout extends RelativeLayout implements
 		listView.setFocusableInTouchMode(true);
 		listView.setDivider(getResources().getDrawable(R.color.white));
 		listView.setDividerHeight(1);
-		listView.setLayoutParams(new AbsListView.LayoutParams(
-				AbsListView.LayoutParams.WRAP_CONTENT,
+		listView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.WRAP_CONTENT,
 				AbsListView.LayoutParams.WRAP_CONTENT));
 		return listView;
 	}
@@ -482,6 +484,14 @@ public class TitleBarLayout extends RelativeLayout implements
 		}
 	}
 
+	public void showCloseIndicator(boolean isShow){
+		if(isShow){
+			mCloseIv.setVisibility(View.VISIBLE);
+		}else{
+			mCloseIv.setVisibility(View.GONE);
+		}
+	}
+	
 	public void setTitleText(String text) {
 		mTitleTextTv.setText(text);
 	}
@@ -505,8 +515,8 @@ public class TitleBarLayout extends RelativeLayout implements
 	public void setNavigationList(ArrayList<NaviItem> itemList) {
 		mNaviList = itemList;
 	}
-
-	public ArrayList<NaviItem> getNavigationList() {
+	
+	public ArrayList<NaviItem> getNavigationList(){
 		return mNaviList;
 	}
 
@@ -527,6 +537,10 @@ public class TitleBarLayout extends RelativeLayout implements
 			} else if (v == mNaviIv) {
 				if (mNaviList != null && mNaviList.size() > 0) {
 					showPopupWindow();
+				}
+			} else if(v == mCloseIv){
+				if(mBackListener != null){
+					mBackListener.onCloseClick();
 				}
 			}
 		}
@@ -557,12 +571,9 @@ public class TitleBarLayout extends RelativeLayout implements
 			if (convertView == null) {
 				holder = new ViewHolder();
 
-				convertView = mInflater.inflate(R.layout.navigation_list_item,
-						null);
-				holder.icon = (ImageView) convertView
-						.findViewById(R.id.navigation_list_item_icon);
-				holder.name = (TextView) convertView
-						.findViewById(R.id.navigation_list_item_name);
+				convertView = mInflater.inflate(R.layout.navigation_list_item, null);
+				holder.icon = (ImageView) convertView.findViewById(R.id.navigation_list_item_icon);
+				holder.name = (TextView) convertView.findViewById(R.id.navigation_list_item_name);
 				convertView.setTag(holder);
 			} else {
 				holder = (ViewHolder) convertView.getTag();
@@ -617,8 +628,7 @@ public class TitleBarLayout extends RelativeLayout implements
 		public boolean isInTouchMode() {
 			// WARNING: Please read the comment where mListSelectionHidden is
 			// declared
-			return (mHijackFocus && mListSelectionHidden)
-					|| super.isInTouchMode();
+			return (mHijackFocus && mListSelectionHidden) || super.isInTouchMode();
 		}
 
 		@Override

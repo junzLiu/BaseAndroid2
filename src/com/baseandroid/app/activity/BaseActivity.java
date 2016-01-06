@@ -25,6 +25,13 @@ public abstract class BaseActivity extends FragmentActivity {
      * @return LayoutId
      */
     protected abstract int getLayoutId();
+    
+    /**
+     * init titleBar
+     */
+    protected void initTitleBar(){
+    	
+    }
 
     /**
      * init Ui wedget and init Data

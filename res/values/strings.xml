@@ -5,4 +5,13 @@
     <string name="hello_world">Hello world!</string>
     <string name="cancel">cancel</string>
 
+     <!-- loadingView -->
+    <string name="loading_wait">努力加载中&#8230;</string>
+    <string name="net_error_retry">网络异常，请点击重试</string>
+    <string name="has_no_data">亲~没有更多的信息哦~</string>
+    <string name="loading_next_fail">亲，加载失败，上拉重试~</string>
+    
+    <string name="ptrl_refresh_fail">加载失败，点击重试</string>
+    <string name="pull_to_refresh_refreshing_label">加载中…</string>
+    
 </resources>

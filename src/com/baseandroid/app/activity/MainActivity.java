@@ -1,4 +1,7 @@
-package com.baseandroid;
+package com.baseandroid.app.activity;
+
+import com.baseandroid.R;
+import com.baseandroid.R.layout;
 
 import android.app.Activity;
 import android.os.Bundle;

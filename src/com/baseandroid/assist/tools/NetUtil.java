@@ -16,6 +16,30 @@ import java.io.InputStreamReader;
  */
 public class NetUtil {
 
+	/**
+	 * 是否联网
+	 * 
+	 * @param context
+	 * @return true为有联网反之没有联网
+	 */
+	public static boolean isNetworkAvailable(Context context) {
+		ConnectivityManager mgr = (ConnectivityManager) context
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		if (mgr != null) {
+			NetworkInfo[] info = mgr.getAllNetworkInfo();
+			if (info != null) {
+				for (int i = 0; i < info.length; i++) {
+					if (info[i].getState() == NetworkInfo.State.CONNECTED) {
+						return true;
+					}
+				}
+			}
+		} else {
+			return false;
+		}
+		return false;
+	}
+	
     public static boolean isNetworkConnected(Context context) {
         if (context != null) {
             ConnectivityManager mConnectivityManager = (ConnectivityManager) context

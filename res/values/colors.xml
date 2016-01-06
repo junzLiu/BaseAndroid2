@@ -32,4 +32,8 @@
     <color name="transparent">#00000000</color>
     <color name="popup_item_text_color">#217cd7</color>
     <color name="dairy_day_text">#afb2b3</color>
+    
+    <color name="list_item_name_text_color">#474747</color>
+    <color name="text_color_black_292929">#292929</color>
+    <color name="text_grey">#a3a3a3</color>
 </resources>
